@@ -9,7 +9,7 @@ The repository is organized as follows:
 - R script for Figure 4B
 
 ``data/``: Contains the necessary data files (in CSV format) to run each analysis
-- Data files are organized by figure number for easy reference
+- Data files are organized by figure number
 
 **Requirements**
 - MATLAB
