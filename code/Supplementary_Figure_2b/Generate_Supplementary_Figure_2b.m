@@ -1,4 +1,6 @@
 % Supplementary Figure 2B
+% Data for this script can be found in the labels folder
+
 clear all; clc;
 
 data_dir = '/oak/stanford/groups/kalanit/biac2/kgs/projects/babybrains/mri/code/morphology_allparameters/roi_labels_dice';
