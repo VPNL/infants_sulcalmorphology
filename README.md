@@ -15,3 +15,7 @@ The repository is organized as follows:
 - MATLAB
 - R
 
+**Dependencies**
+
+MATLAB Version: Code was written and tested using MATLAB R2023a, but it should be compatible with both older and more recent MATLAB versions.
+Optional Tools: If you wish to process your own raw data using the scripts (e.g., from NIfTI files), you will need to install Vistasoft, a MATLAB toolbox for neuroimaging data analysis.
