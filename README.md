@@ -2,6 +2,8 @@
 
 This repository contains the code and data for the paper: **"How infant brains fold: Sulcal deepening is linked to development of sulcal span, thickness, curvature, and microstructure."** Tung, S.S., Yan, X., Fascendini, B., Tyagi, C., Reyes, C.M., Ducre, K., Perez, K., Allen, A., Horenziak, J., Wu, H., Keil, B., Natu, V.S., Grill-Spector, K. (2025).
 
+https://www.biorxiv.org/content/10.1101/2025.04.18.649604v1#:~:text=Cortical%20folding%20begins%20in%20utero,postnatal%20sulcal%20development%20remain%20unknown.
+
 The repository is organized as follows:
 
 ``code/``: Contains analysis scripts for each figure in the paper
@@ -13,7 +15,7 @@ The repository is organized as follows:
 
 **Requirements**
 - MATLAB
-- R
+- RStudio
 
 **Dependencies**
 
