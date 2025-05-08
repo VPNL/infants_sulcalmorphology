@@ -1,9 +1,8 @@
 %% Figure 5A
 % This script visualizes the 3D structure of macro- and microstructural
-% parameters in the 12 sulci. 
+% parameters in the superior temporal sulcus (STS). 
 
-% Example data for one participant and one sulcus over the 4 timepoints are
-% located in the data/Figure_5a folder. 
+% Example data for one participant is located in the data/Figure_5a folder. 
 
 % NOTE: This script assumes the repository is located at ~/Downloads/infant_sulcalmorphology
 
@@ -17,9 +16,9 @@ data_path = fullfile(repo_root, 'data', 'Figure_5a');
 %% Parameters
 subj = {'example_subj'}; 
 
-roi_list = {'calcarine','pos','insula','central','cos','sts','sfs','ips','loc','ifs','ots_lat', 'its'};
+roi = 'sts';
 
-hemi = {'lh','rh'};
+hemi = {'lh'};
 
 % Range will change based on which parameter you visualize
 range1= 0;
@@ -33,45 +32,41 @@ parameter = 'sulc';      % Sulcal Depth
 
 %%
 
-for h = 1 % Left hemisphere
-    for l = 6 % STS
-        for i=1:length(subj)
-            % Get the label file (ROI mask)
-            label_file = fullfile(data_path, [hemi{h} '.' roi_list{l} '.label.nii.gz']);
-            labelfile = readFileNifti(label_file);
-            
-            measure_file = fullfile(data_path, [subj{i} '_' parameter '_fsaverage_' hemi{h} '.nii.gz']);
-            measure = readFileNifti(measure_file);
-            
-            % Create masked volume
-            NEW = zeros(256, 256, 256);
-            NEW(labelfile.data==1) = measure.data(labelfile.data==1);
+for i = 1:length(subj)
+    % Get the label file (ROI mask)
+    label_file = fullfile(data_path, [hemi{1} '.' roi '.label.nii.gz']);
+    labelfile = readFileNifti(label_file);
 
-            max(max(max(NEW)))
-            measure.data =NEW;
-            measure.fname = 'temp.nii.gz';
-            writeFileNifti(measure);
-            NEW = readFileNifti('temp.nii.gz');
-            !rm -f 'temp.nii.gz';
-            
-            [r, c, v] = ind2sub(size(NEW.data), find(NEW.data));
-            val=NEW.data(find(NEW.data));
-            normalized_val = normalize(val);
-            
-            figure;
-            set(gcf, 'Color', [1 1 1])
-            
-            scatter3(r,c,v, 200, val, 'filled'), colormap(jet); colorbar;
-            caxis([range1 range2]);
+    measure_file = fullfile(data_path, [subj{i} '_' parameter '_fsaverage_' hemi{1} '.nii.gz']);
+    measure = readFileNifti(measure_file);
 
-            % Adjust view (set manually using get(gca, 'View'))
-            view([-119.0024 0.4599])
-            axis off;
-            box off;
-            grid off;
-            clear r v c NEW COS sulc
-            
-            set(gcf, 'Position', [1297 320 622 501]);
-        end
-    end
+    % Create masked volume
+    NEW = zeros(256, 256, 256);
+    NEW(labelfile.data==1) = measure.data(labelfile.data==1);
+
+    max(max(max(NEW)))
+    measure.data = NEW;
+    measure.fname = 'temp.nii.gz';
+    writeFileNifti(measure);
+    NEW = readFileNifti('temp.nii.gz');
+    !rm -f 'temp.nii.gz';
+
+    [r, c, v] = ind2sub(size(NEW.data), find(NEW.data));
+    val=NEW.data(find(NEW.data));
+    normalized_val = normalize(val);
+
+    figure;
+    set(gcf, 'Color', [1 1 1])
+
+    scatter3(r,c,v, 200, val, 'filled'), colormap(jet); colorbar;
+    caxis([range1 range2]);
+
+    % Adjust view (set manually using get(gca, 'View'))
+    view([-119.0024 0.4599])
+    axis off;
+    box off;
+    grid off;
+    clear r v c NEW COS sulc
+
+    set(gcf, 'Position', [1297 320 622 501]);
 end
