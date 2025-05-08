@@ -1,11 +1,21 @@
 %% Figure 5A
+% This script visualizes the 3D structure of macro- and microstructural
+% parameters in the 12 sulci. 
 
-%  NIfTI files for this example subject ('bb28_mri12_mask') are located in the `data` folder
+% Example data for one participant and one sulcus over the 4 timepoints are
+% located in the data/Figure_5a folder. 
 
-morph_path = '/oak/stanford/groups/kalanit/biac2/kgs/projects/babybrains/mri/code/morphology_allparameters/';
-addpath(morph_path)
+% NOTE: This script assumes the repository is located at ~/Downloads/infant_sulcalmorphology
 
-subj = {'bb28_mri12_mask'}; 
+%% Setup paths relative to repository root
+
+repo_root = '~/Downloads/infant_sulcalmorphology';
+
+% Define data path
+data_path = fullfile(repo_root, 'data', 'Figure_5a');
+
+%% Parameters
+subj = {'example_subj'}; 
 
 roi_list = {'calcarine','pos','insula','central','cos','sts','sfs','ips','loc','ifs','ots_lat', 'its'};
 
@@ -15,37 +25,24 @@ hemi = {'lh','rh'};
 range1= 0;
 range2= 9.5;
 
-flag = 0;
+% Select which parameter to visualize (uncomment one)
+parameter = 'sulc';      % Sulcal Depth
+% parameter = 'thickness'; % Thickness
+% parameter = 'curv';      % Curvature
+% parameter = 'R1';        % R1
 
 %%
-
-FSdir= ('/oak/stanford/groups/kalanit/biac2/kgs/anatomy/freesurferRecon/babybrains');
-subjdir = ('/oak/stanford/groups/kalanit/biac2/kgs/anatomy/freesurferRecon/babybrains');
 
 for h = 1 % Left hemisphere
     for l = 6 % STS
         for i=1:length(subj)
-            cd(FSdir)
-            labelfile = readFileNifti(fullfile(FSdir, 'fsAverage', 'label','sarah_coarse_labels',[hemi{h} '.' roi_list{l} '.coarse.st.label.nii.gz']));
-            cd(fullfile(subjdir, subj{i}, 'surf/'));
-
-            %% Choose which parameter to visualize by uncommenting one line
-
-            % ---------- Sulcal Depth ----------
-            % measure = readFileNifti([subj{i} '_sulc_fsaverage_' hemi{h} '.nii.gz']);
-
-            % ---------- Thickness ----------
-            % measure = readFileNifti([subj{i} '_THICK_fsaverage_' hemi{h} '.nii.gz']);
-
-            % ---------- Curvature ----------
-            % measure = readFileNifti([subj{i} '_CURV_fsaverage_' hemi{h} '.nii.gz']);
-
-            % ---------- R1 ----------
-            % whichmonth_path = extractBetween(subj{i}, '_', '_');
-            % whichbaby = extractBefore(subj{i}, '_');
-            % cd(['/oak/stanford/groups/kalanit/biac2/kgs/projects/babybrains/mri/' whichbaby '/' whichmonth_path '/preprocessed_aligned/qmri/'])
-            % measure = readFileNifti([hemi{h} '.SEIR_R1_aligned_1mm_fsaverage_gray.nii.gz']);
-
+            % Get the label file (ROI mask)
+            label_file = fullfile(data_path, [hemi{h} '.' roi_list{l} '.label.nii.gz']);
+            labelfile = readFileNifti(label_file);
+            
+            measure_file = fullfile(data_path, [subj{i} '_' parameter '_fsaverage_' hemi{h} '.nii.gz']);
+            measure = readFileNifti(measure_file);
+            
             % Create masked volume
             NEW = zeros(256, 256, 256);
             NEW(labelfile.data==1) = measure.data(labelfile.data==1);
