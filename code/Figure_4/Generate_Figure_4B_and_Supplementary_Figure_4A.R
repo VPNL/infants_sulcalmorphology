@@ -3,7 +3,6 @@
 library(tidyverse)
 library(ggplot2)
 library(ggridges)
-library(ggplot2)
 library(dplyr)
 library(forcats)
 library(viridis)
@@ -12,13 +11,10 @@ library(ggnetwork)
 library(ggraph)
 library(reshape2)
 library(ggpubr)
-library(hrbrthemes)
-
-
-setwd("~/Dropbox/TungST_Morphology_Manuscript/Polar_plot_files/")
 
 # Custom function to create polar coordinate system for ggplot
-# This transforms a standard x-y plot into a circular/polar representation
+# Acknowledgements to Ethan Willbrand for their help on this script
+
 coord_radar <- function(theta = "x", start = 0, direction = 1) { 
   theta <- match.arg(theta, c("x", "y"))
   r <- if (theta == "x") "y" else "x"
@@ -32,7 +28,7 @@ normalit <- function(m) {
   (m - min(m)) / (max(m) - min(m))
 }
 
-# Change 'all_data_lh_byROI' to 'all_data_rh_byROI' to create Supplementary Figure 4A (right hemisphere)
+# Change to 'all_data_rh_byROI' to create Supplementary Figure 4A (right hemisphere)
 df2 <- all_data_lh_byROI %>% 
   summarise(
     SulcalDepth = normalit(SulcalDepth),   
@@ -60,46 +56,58 @@ finaldata <- singleroi %>%
     se = sd/sqrt(n)                       
   )
 
-group_col<-c("#B5D5F0","#7EACD1","#2C6A9F","#000000")
+# Age group colors
+group_col <- c("#B5D5F0", "#7EACD1", "#2C6A9F", "#000000")
 
-# Create the polar plot
+# Create the polar plot with error bands
 finaldata.plot <- finaldata %>% 
   ggplot() + 
+  geom_ribbon(
+    aes(x = variable, 
+        ymin = pmax(0, mean - se),  
+        ymax = mean + se,         
+        group = AgeCat, 
+        fill = AgeCat), 
+    alpha = 0.4                    
+  ) +
   geom_polygon(
-    aes(x = variable, y = mean, group = AgeCat, color = AgeCat, fill = AgeCat), 
-    size = 4, 
-    alpha = .01                          
+    aes(x = variable, y = mean, group = AgeCat, color = AgeCat), 
+    size = 0.6, 
+    fill = NA                       
   ) + 
-  scale_color_brewer(palette = "Set3") +
   geom_point(
-    aes(x = variable, y = mean, fill = NA), 
-    size = 2, 
-    shape = 2                            
+    aes(x = variable, y = mean, color = AgeCat), 
+    size = 1, 
+    shape = 16
   ) + 
+  # Convert to radar/polar coordinates
   coord_radar() + 
   scale_y_continuous(
     labels = paste(seq(0, 90, by = 10), ""),  
     breaks = seq(0, 0.9, by = 0.1),  
     limits = c(0, 0.90)
   ) +
+  # Add labels
   labs(
     x = "Metric",
     y = "Units", 
-    color = "Label",
-    fill = "Label"
+    color = "Age Group",
+    fill = "Age Group"
   ) + 
   theme_minimal() + 
   theme(
     plot.title = element_text(family = "Arial", color = "black", size = 12, hjust = 0.5), 
-    axis.title = element_text(family = "Arial", color = "black", face = "italic", size = 0),  
-    axis.text.y = element_text(family = "Arial", color = "black", size = 7),
-    axis.text.x = element_text(family = "Arial", color = "black", size = 0),  # Hide variable names
+    axis.title = element_blank(),  
+    axis.text.y = element_blank(),  
+    axis.text.x = element_blank(),  
+    axis.ticks = element_blank(), 
     legend.title = element_text(family = "Arial", color = "black", size = 14), 
     legend.text = element_text(family = "Arial", color = "black", size = 12), 
     strip.text = element_text(family = "Arial", color = "black", face = "italic", size = 12, hjust = 0.5), 
-    panel.grid.minor = element_line(size = .7, color = "black"), 
-    panel.grid.major = element_line(size = .7, color = "black")
+    panel.grid.minor = element_line(size = .1, color = "black"), 
+    panel.grid.major = element_line(size = .1, color = "black")
   ) 
 
-# Apply the custom color palette for age groups and display the final plot
-finaldata.plot + scale_color_manual(values = group_col)
+finaldata.plot + 
+  scale_color_manual(values = group_col) +
+  scale_fill_manual(values = group_col)  
