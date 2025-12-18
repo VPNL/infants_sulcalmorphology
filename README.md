@@ -10,7 +10,7 @@ The repository is organized as follows:
 - Data files are organized by figure number
 - The raw neuroimaging data are not publicly available due to file size limitations and privacy protection of participants. Requests for access to raw data can be directed to Sarah Tung (sstung@stanford.edu).
 
-``supplement/``: Contains the necessary data files (in CSV format) to generate supplementary figures
+``code/Supplementary_Information``: Contains the necessary data files (in CSV format) to generate supplementary figures
 
 
 **Requirements**
