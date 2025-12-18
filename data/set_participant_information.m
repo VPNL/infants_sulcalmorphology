@@ -23,31 +23,41 @@ subj = {'bb02_mri0_mask', 'bb02_mri3_mask', 'bb02_mri6_mask', 'bb04_mri0_mask', 
     'bb75_mri3_mask', 'bb77_mri0_mask', 'bb77_mri3_mask', 'bb78_mri0_mask', ...
     'bb78_mri3_mask', 'bb79_mri0_mask', 'bb82_mri6_mask', 'bb61_mri12_mask', ...
     'bb50_mri3_mask', 'bb47_mri6_mask', 'bb47_mri12_mask'};
+
 group = [1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 9, 10,...
     11, 12, 13, 14, 14, 14, 15, 15, 15, 16, 16, 17, 18, 18, 18, 19, 19, 19,...
     20, 21, 21, 21, 22, 23, 23, 24, 24, 25, 26, 27, 28, 28, 28, 29, 30, 30,...
     30, 31, 32, 32, 33, 34, 34, 35, 35, 36, 36, 37, 37, 38, 38, 39, 40, 41,...
     42, 43, 43];
+
 regage = [29, 85, 185, 23, 189, 24, 91, 189, 37, 95, 179, 24, 78, 167, 104,...
     181, 31, 79, 174, 104, 18, 177, 30, 94, 35, 94, 227, 368, 17, 182, 360,...
     135, 190, 166, 50, 212, 373, 123, 190, 372, 47, 133, 195, 399, 38, 35,...
     96, 14, 144, 212, 27, 398, 9, 199, 418, 34, 44, 182, 392, 24, 29, 181,...
     201, 21, 111, 31, 113, 37, 106, 33, 113, 30, 141,16, 198, 385, 88, 170, 393];
+
 logage = log10(regage);
 
-roi_list = {'calcarine','pos','insula','central','cos','sts','sfs','ips','loc','ifs','ots_lat', 'its'};
+roi_list = {'calcarine','insula','cingulate','pos','central','precentral','cos','sts',...
+    'postcentral','sfs','ips','loc','ifs','ots', 'its'};
 
-color = [255 102 102; 255 178 102; 220 215 45; 153 255 51; 51 255 51; 51 255 153; 51 255 255; 51 153 255; 51 51 255; 153 51 255; 255 51 255; 255 51 153]/255;
-hemisphere = {'lh', 'rh'};
+hemisphere = {'lh','rh'};
+
+color = [179 234 252; 
+    154 189 249; 
+    84 138 249; 
+    46 92 217; 
+    177 223 133; 
+    102 195 162; 
+    67 150 157;
+    38 92 103;
+    250 224 75;
+    241 160 57;
+    197 128 56;
+    143 95 34;
+    243 177 231; 
+    234 51 148;
+    144 31 90]/255; 
 
 FSdir = '/oak/stanford/groups/kalanit/biac2/kgs/anatomy/freesurferRecon/babybrains';
 morph_path = '/oak/stanford/groups/kalanit/biac2/kgs/projects/babybrains/mri/code/morphology_allparameters/';
-
-% roi_table = table(roi_list', color(:,1), color(:,2), color(:,3), ...
-%     'VariableNames', {'ROI', 'R', 'G', 'B'});
-% 
-% writetable(roi_table, 'roi_colors.csv');
-% 
-% T = table(subj', group', regage', logage', ...
-%     'VariableNames', {'Subject', 'Group', 'RegAge', 'LogAge'});
-% writetable(T, 'subject_data.csv');
