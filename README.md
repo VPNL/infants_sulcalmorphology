@@ -1,5 +1,3 @@
-**Infant Sulcal Morphology**
-
 This repository contains the code and data for the paper: **"How do infant brains fold?: Sulcal deepening is linked to development of sulcal span, thickness, curvature, and microstructure."** Tung, S.S., Yan, X., Fascendini, B., Tyagi, C., Reyes, C.M., Ducre, K., Perez, K., Allen, A., Horenziak, J., Wu, H., Keil, B., Natu, V.S., Grill-Spector, K. (2025).
 
 The repository is organized as follows:
