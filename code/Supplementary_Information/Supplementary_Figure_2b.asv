@@ -1,10 +1,8 @@
 %% Script to compare the overlap between hand-drawn ROIs and 
 % both UNC and FreeSurfer projected ROIs
 
-% You cannot run this unless you (1) draw the ROI labels on the UNC template
-% in freeview and (2) project the UNC labels onto each individual infant brain.
-
-% Please email sstung@stanford.edu if you would like the labels!
+% You cannot run this unless you (1) draw the ROI labels on the UNC template,
+% (2) project the UNC labels onto each individual infant brain.
 
 
 clear all; clc; close;
@@ -44,6 +42,7 @@ for s = 1:length(subj)
             i_gt = i_gt + 1;
             data_groundtruth{i_gt} = gt_data(:, 1);
             
+           
             
             % Read UNC
             fprintf('Reading UNC-projected labels\n');
@@ -57,14 +56,16 @@ for s = 1:length(subj)
             fprintf('Reading fsaverage-projected labels\n');
             coarse_label_name = [hemisphere{h} '.' roi_list{r} '.coarse.st'];
             coarse_data = read_label(subj{s}, coarse_label_name);
-            i_coarse = i_coarse + 1;
-            data_coarse{i_coarse} = coarse_data(:, 1);
-
+            if ~isempty(coarse_data)
+                i_coarse = i_coarse + 1;
+                data_coarse{i_coarse} = coarse_data(:, 1);
+           
+            end
         end
     end
 end
 
-%% Calculate dice coefficients for UNC method
+%% Calculate Dice coefficients for UNC method
 
 DC_UNC = zeros(1, length(data_UNC));
 
@@ -77,7 +78,7 @@ for l = 1:length(data_UNC)
     end
 end
 
-%% Calculate dice coefficients for adult fsaverage method
+%% Calculate Dice coefficients for coarse method
 
 DC_coarse = zeros(1, length(data_coarse));
 
