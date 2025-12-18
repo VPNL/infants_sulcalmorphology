@@ -3,14 +3,14 @@ This repository contains the code and data for the paper: **"How do infant brain
 The repository is organized as follows:
 
 ``code/``: Contains analysis scripts for each figure in the paper
-- MATLAB scripts for all figures except Figure 4B
-- R script for Figure 4B
+- MATLAB scripts for all figures except Figure 5B
+- R script for Figure 5B
 
 ``data/``: Contains the necessary data files (in CSV format) to run each analysis
 - Data files are organized by figure number
 - The raw neuroimaging data are not publicly available due to file size limitations and privacy protection of participants. Requests for access to raw data can be directed to Sarah Tung (sstung@stanford.edu).
 
-``supplement/``: Contains the necessary data files (in CSV format) to run each analysis
+``supplement/``: Contains the necessary data files (in CSV format) to generate supplementary figures
 
 
 **Requirements**
